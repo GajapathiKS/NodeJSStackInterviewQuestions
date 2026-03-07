@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interview Mastery UI · 550+ Questions</title>
+  <style>
+    :root {
+      --bg:#060b16;--panel:#111a2b;--panel-2:#162238;--text:#e8f0ff;--muted:#8ea6cb;
+      --accent:#4f8cff;--ok:#18c17f;--warn:#f7b13f;--danger:#ff6868;--border:#233452;
+    }
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui;background:radial-gradient(circle at top,#0d1830,#050914);color:var(--text)}
+    header{position:sticky;top:0;background:#060b16cc;backdrop-filter:blur(8px);padding:14px 22px;border-bottom:1px solid var(--border);z-index:9}
+    .top{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .brand{font-weight:700;letter-spacing:.5px}.badge{background:var(--panel);border:1px solid var(--border);padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted)}
+    input,select{background:var(--panel);color:var(--text);border:1px solid var(--border);padding:8px 10px;border-radius:8px}
+    main{max-width:1200px;margin:auto;padding:20px;display:grid;grid-template-columns:320px 1fr;gap:16px}
+    .card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:16px}
+    h2,h3{margin:0 0 10px}
+    .muted{color:var(--muted)}
+    .flow{display:flex;gap:8px;overflow:auto;padding-bottom:4px}
+    .node{min-width:130px;background:var(--panel-2);border:1px solid var(--border);border-radius:10px;padding:10px;font-size:12px;text-align:center;position:relative}
+    .node:not(:last-child)::after{content:'→';position:absolute;right:-11px;top:50%;transform:translateY(-50%);color:var(--accent)}
+    .q{border:1px solid var(--border);border-radius:12px;margin-bottom:10px;background:var(--panel-2)}
+    .q summary{list-style:none;padding:12px;cursor:pointer;display:flex;gap:8px;align-items:flex-start}
+    .q summary::-webkit-details-marker{display:none}
+    .pill{font-size:10px;border:1px solid var(--border);padding:1px 6px;border-radius:10px;text-transform:uppercase}
+    .basic{color:var(--ok)} .intermediate{color:var(--warn)} .advanced{color:var(--danger)}
+    .answer{padding:0 12px 12px;color:#c6d7f4;font-size:14px;line-height:1.6}
+    .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.tag{font-size:11px;background:#0f1a2f;border:1px solid var(--border);padding:2px 8px;border-radius:999px;color:var(--muted)}
+    ul{margin:8px 0 0 18px;padding:0} li{margin-bottom:6px;color:#c6d7f4}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:var(--panel-2);border:1px solid var(--border);padding:10px;border-radius:10px;text-align:center}
+    .stat b{font-size:22px;display:block}
+    @media (max-width:900px){main{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="top">
+      <div class="brand">🚀 Interview Mastery UI</div>
+      <div class="badge" id="totalBadge">Loading questions...</div>
+      <input id="search" placeholder="Search question, tag, concept" />
+      <select id="category"></select>
+      <select id="level">
+        <option value="all">All levels</option>
+        <option value="basic">Basic</option>
+        <option value="intermediate">Intermediate</option>
+        <option value="advanced">Advanced</option>
+      </select>
+    </div>
+  </header>
+  <main>
+    <section class="card">
+      <h2>Beginner → Expert Plan</h2>
+      <div class="muted">Practice these question sets without AI help by writing your own first draft answer, then revising after feedback.</div>
+      <div class="stats" style="margin-top:10px">
+        <div class="stat"><b id="total">0</b><span class="muted">Questions</span></div>
+        <div class="stat"><b id="visible">0</b><span class="muted">Showing</span></div>
+        <div class="stat"><b>12w</b><span class="muted">Core Plan</span></div>
+      </div>
+      <h3 style="margin-top:14px">Learning Path (No-AI Discipline)</h3>
+      <ul id="path"></ul>
+      <h3 style="margin-top:14px">How to Impress Interviewer</h3>
+      <ul id="checklist"></ul>
+    </section>
+
+    <section>
+      <div class="card" id="flows"></div>
+      <div class="card" style="margin-top:14px">
+        <h2>Question Bank</h2>
+        <div id="list"></div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let state={questions:[]};
+    const list=document.getElementById('list');
+    const search=document.getElementById('search');
+    const category=document.getElementById('category');
+    const level=document.getElementById('level');
+
+    function li(text,parent){const el=document.createElement('li');el.textContent=text;parent.appendChild(el)}
+
+    function renderQuestions(){
+      const q=search.value.trim().toLowerCase();
+      const cat=category.value; const lv=level.value;
+      const filtered=state.questions.filter(item=>{
+        const hit=!q || [item.question,item.answer,item.categoryTitle,...item.tags].join(' ').toLowerCase().includes(q);
+        const catHit=cat==='all' || item.category===cat;
+        const lvHit=lv==='all' || item.level===lv;
+        return hit && catHit && lvHit;
+      });
+      document.getElementById('visible').textContent=filtered.length;
+      list.innerHTML=filtered.slice(0,220).map(item=>`<details class="q"><summary><span>${item.icon}</span><div><div>${item.question}</div><small class="pill ${item.level}">${item.level}</small></div></summary><div class="answer">${item.answer}<div class="tags">${item.tags.map(t=>`<span class='tag'>#${t}</span>`).join('')}</div></div></details>`).join('');
+      if(filtered.length>220){
+        list.insertAdjacentHTML('beforeend',`<p class='muted'>Showing first 220 results for performance. Refine filters to explore all ${filtered.length}.</p>`)
+      }
+    }
+
+    async function boot(){
+      const data=await fetch('./questions.json').then(r=>r.json());
+      state.questions=data.questions;
+      document.getElementById('total').textContent=data.meta.totalQuestions;
+      document.getElementById('visible').textContent=data.meta.totalQuestions;
+      document.getElementById('totalBadge').textContent=`${data.meta.totalQuestions}+ interview questions • beginner to expert`;
+
+      category.innerHTML='<option value="all">All categories</option>'+
+        [...new Map(data.questions.map(q=>[q.category,[q.categoryTitle,q.category]])).values()]
+        .map(([title,key])=>`<option value='${key}'>${title}</option>`).join('');
+
+      const path=document.getElementById('path'); data.learningPath.forEach(p=>li(p,path));
+      const checklist=document.getElementById('checklist'); data.impressInterviewerChecklist.forEach(c=>li(c,checklist));
+
+      document.getElementById('flows').innerHTML = `<h2>Graphical Architecture Flows</h2>` +
+        data.architectureFlows.map(flow=>`<div style='margin-bottom:16px'><h3>${flow.title}</h3><div class='flow'>${flow.steps.map(s=>`<div class='node'>${s}</div>`).join('')}</div><p class='muted' style='margin-top:6px'>💡 ${flow.tip}</p></div>`).join('');
+
+      [search,category,level].forEach(el=>el.addEventListener('input',renderQuestions));
+      renderQuestions();
+    }
+    boot();
+  </script>
+</body>
+</html>
