@@ -1,24 +1,30 @@
-# Interview Mastery UI (550+ Questions)
+# Interview Mastery (Next.js + 550 Questions)
 
-A static GitHub Pages app focused on beginner-to-expert interview prep:
-- 550 curated questions across Node.js, JavaScript, backend, databases, architecture, frontend/Next.js, and full-stack coding.
-- Graphical architecture flow cards for explaining system design in interviews.
-- Beginner learning path and "impress the interviewer" checklist.
-- Search + filter by category and level.
+This project is now a **Next.js app** (static export) with a large interview prep bank for beginner-to-expert progression.
 
-## Local run
+## Features
+- 550 interview questions across multiple Node/JS/full-stack categories.
+- Search + category + level filtering.
+- Architecture flow visuals with explanation tips.
+- Learning path and interviewer-impression checklist.
+- GitHub Pages deployment via GitHub Actions.
+
+## Local development
 
 ```bash
-python -m http.server 4173
-# open http://localhost:4173
+npm install
+npm run dev
+# open http://localhost:3000
 ```
 
-## Deploy to GitHub Pages
+## Production build (static export)
 
-1. Push to `main` branch.
-2. In repository settings, enable **Pages** and set source to **GitHub Actions**.
-3. Workflow `.github/workflows/deploy-pages.yml` deploys the static site.
+```bash
+npm run build
+# static files generated in ./out
+```
 
-After deployment, your app is available at:
-
-`https://<your-github-username>.github.io/<repo-name>/`
+## GitHub Pages
+1. Push to `main`.
+2. In repo settings → Pages, set source to **GitHub Actions**.
+3. Workflow at `.github/workflows/deploy-pages.yml` builds and deploys the `out/` folder.
