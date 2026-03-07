@@ -1,0 +1,40 @@
+:root {
+  --bg: #070d1c;
+  --panel: #111a2c;
+  --panel2: #1a2640;
+  --text: #ebf2ff;
+  --muted: #9ab0d0;
+  --border: #293b5e;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Inter, system-ui, sans-serif; background: radial-gradient(circle at top, #111d37, #070d1c); color: var(--text); }
+.page { max-width: 1280px; margin: 0 auto; padding: 20px; }
+.topBar { margin-bottom: 14px; }
+.topBar p { color: var(--muted); }
+.card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 14px; margin-bottom: 14px; }
+.controls { display: grid; grid-template-columns: 1.3fr 1fr 1fr 1fr; gap: 10px; }
+input, select { width: 100%; border: 1px solid var(--border); background: var(--panel2); color: var(--text); border-radius: 10px; padding: 10px; }
+.layout { display: grid; grid-template-columns: 340px 1fr; gap: 14px; }
+ul { padding-left: 18px; }
+li { margin-bottom: 6px; color: #c5d4ef; }
+.skillGroup h3 { margin: 10px 0 6px; font-size: 14px; color: #d4e3ff; }
+.flowWrap { margin-bottom: 16px; }
+.flow { display: flex; gap: 8px; overflow: auto; padding-bottom: 4px; }
+.node { min-width: 130px; background: var(--panel2); border: 1px solid var(--border); border-radius: 10px; padding: 10px; text-align: center; position: relative; }
+.node:not(:last-child)::after { content: '→'; position: absolute; right: -12px; top: 50%; transform: translateY(-50%); }
+.question { background: var(--panel2); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; }
+.question summary { cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 10px; }
+.question p { padding: 0 10px; color: #ccdaf2; }
+.pill { margin-left: auto; font-size: 11px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); text-transform: uppercase; }
+.pill.basic { color: #41d28d; }
+.pill.intermediate { color: #ffcd69; }
+.pill.advanced { color: #ff8d8d; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 10px 10px; }
+.tag { font-size: 11px; border: 1px solid var(--border); border-radius: 999px; padding: 2px 8px; color: var(--muted); }
+.tip { color: var(--muted); }
+.questionTop { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.pickBtn { background: #365cff; color: white; border: 0; border-radius: 8px; padding: 8px 12px; cursor: pointer; }
+.randomBox { border: 1px dashed var(--border); border-radius: 10px; padding: 10px; margin-bottom: 12px; background: #121d33; }
+@media (max-width: 980px) {
+  .controls, .layout { grid-template-columns: 1fr; }
+}
