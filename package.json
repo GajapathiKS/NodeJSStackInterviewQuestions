@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "build:docs": "npm run build && rm -rf docs && mkdir -p docs && cp -R out/. docs/ && touch docs/.nojekyll"
   },
   "dependencies": {
     "next": "14.2.32",
