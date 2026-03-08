@@ -317,7 +317,7 @@ export default function Page() {
                 <span className="type-badge">{currentFc.type}</span>
               </div>
               <div className="fc-q">{currentFc.question}</div>
-              <div className="fc-a">{currentFc.answer}</div>
+              <div className="fc-a" dangerouslySetInnerHTML={{ __html: currentFc.answer }} />
             </div>
 
             <div className="fc-hint">{fcRevealed ? '' : 'tap to reveal answer'}</div>
@@ -548,7 +548,10 @@ function QuestionCard({ q, num, isOpen, isAnswered, isBookmarked, onToggle, onAn
 
       {isOpen && (
         <div className="q-answer">
-          <div className="answer-box">{q.answer}</div>
+          <div
+            className="answer-box"
+            dangerouslySetInnerHTML={{ __html: q.answer }}
+          />
           {q.tags && q.tags.length > 0 && (
             <div className="q-tags">
               {q.tags.map(tag => <span key={tag} className="tag">#{tag}</span>)}

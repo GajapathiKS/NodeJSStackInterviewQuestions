@@ -439,13 +439,139 @@ body::before {
   background: var(--surface2);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 14px 16px;
+  padding: 16px 18px;
   font-size: 13px;
   line-height: 1.75;
   color: #c8d3e8;
-  white-space: pre-wrap;
   word-break: break-word;
 }
+
+/* ── RICH ANSWER CONTENT ─────────────────────────────────────────────────── */
+.answer-box .ans-p,
+.fc-a .ans-p {
+  margin: 0 0 10px;
+  line-height: 1.75;
+  color: #c8d3e8;
+}
+.answer-box .ans-p:last-child,
+.fc-a .ans-p:last-child { margin-bottom: 0; }
+
+.answer-box .ans-h3,
+.fc-a .ans-h3 {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin: 16px 0 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+.answer-box .ans-h3:first-child,
+.fc-a .ans-h3:first-child { margin-top: 0; }
+
+.answer-box .ans-c,
+.fc-a .ans-c {
+  font-family: var(--mono);
+  font-size: 12px;
+  background: rgba(59,130,246,0.12);
+  color: var(--accent2);
+  padding: 1px 6px;
+  border-radius: 3px;
+  border: 1px solid rgba(129,140,248,0.2);
+}
+
+.answer-box .ans-pre,
+.fc-a .ans-pre {
+  background: #07101f;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  margin: 12px 0;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.65;
+  color: #a5d8ff;
+  white-space: pre;
+}
+.answer-box .ans-pre code,
+.fc-a .ans-pre code {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  padding: 0;
+  border: none;
+}
+
+.answer-box .ans-ul,
+.answer-box .ans-ol,
+.fc-a .ans-ul,
+.fc-a .ans-ol {
+  margin: 8px 0 10px 0;
+  padding-left: 20px;
+  color: #c8d3e8;
+}
+.answer-box .ans-ul li,
+.answer-box .ans-ol li,
+.fc-a .ans-ul li,
+.fc-a .ans-ol li {
+  margin-bottom: 6px;
+  line-height: 1.65;
+}
+
+/* Trade-off table */
+.answer-box .ans-tbl-w,
+.fc-a .ans-tbl-w {
+  overflow-x: auto;
+  margin: 12px 0;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+.answer-box .ans-tbl,
+.fc-a .ans-tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.answer-box .ans-tbl th,
+.fc-a .ans-tbl th {
+  background: rgba(59,130,246,0.1);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.answer-box .ans-tbl td,
+.fc-a .ans-tbl td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  color: #c8d3e8;
+  line-height: 1.5;
+}
+.answer-box .ans-tbl tr:last-child td,
+.fc-a .ans-tbl tr:last-child td { border-bottom: none; }
+.answer-box .ans-tbl tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* SVG diagrams inside answers */
+.answer-box svg,
+.fc-a svg {
+  display: block;
+  width: 100%;
+  max-width: 580px;
+  height: auto;
+  margin: 14px 0;
+}
+
+/* strong/em inside answers */
+.answer-box strong { color: #e8edf7; }
+.answer-box em { color: var(--accent2); font-style: normal; }
 .q-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 10px; }
 .tag {
   font-family: var(--mono);
@@ -546,7 +672,8 @@ body::before {
   padding-top: 16px;
   margin-top: 16px;
   border-top: 1px solid var(--border);
-  white-space: pre-wrap;
+  overflow-y: auto;
+  max-height: 320px;
 }
 .flashcard.revealed .fc-a { display: block; }
 .fc-hint {
