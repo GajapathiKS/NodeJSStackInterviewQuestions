@@ -264,12 +264,15 @@ export default function Page() {
     setQuoteFrequency(savedFreq);
   }, []);
 
+  const hydrated = useRef(false);
+  useEffect(() => { hydrated.current = true; }, []);
+
   useEffect(() => {
-    localStorage.setItem('ip_answered', JSON.stringify([...answered]));
+    if (hydrated.current) localStorage.setItem('ip_answered', JSON.stringify([...answered]));
   }, [answered]);
 
   useEffect(() => {
-    localStorage.setItem('ip_bookmarked', JSON.stringify([...bookmarked]));
+    if (hydrated.current) localStorage.setItem('ip_bookmarked', JSON.stringify([...bookmarked]));
   }, [bookmarked]);
 
   // ── derived data ─────────────────────────────────────────────────────────
@@ -421,7 +424,19 @@ export default function Page() {
   }
 
   function toggleAnswered(id) {
-    setAnswered(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
+    setAnswered(prev => {
+      const n = new Set(prev);
+      const wasDone = n.has(id);
+      wasDone ? n.delete(id) : n.add(id);
+      // Show quote every N questions marked done
+      if (!wasDone) {
+        quoteShownCountRef.current += 1;
+        if (quoteFrequency > 0 && quoteShownCountRef.current % quoteFrequency === 0) {
+          showRandomQuote();
+        }
+      }
+      return n;
+    });
   }
   function toggleBookmarked(id) {
     setBookmarked(prev => { const n = new Set(prev); n.has(id) ? n.delete(id) : n.add(id); return n; });
@@ -438,7 +453,6 @@ export default function Page() {
       const n = new Set(prev);
       const wasOpen = n.has(id);
       wasOpen ? n.delete(id) : n.add(id);
-      // Show quote every N questions opened (configurable)
       if (!wasOpen) {
         quoteShownCountRef.current += 1;
         if (quoteFrequency > 0 && quoteShownCountRef.current % quoteFrequency === 0) {
