@@ -1,0 +1,10 @@
+const q = require('./questions.json');
+const enriched = q.questions.filter(x => x.answer && x.answer.includes('answer-card')).length;
+console.log('Enriched:', enriched, '/ 891');
+const remaining = q.questions.filter(x => !(x.answer && x.answer.includes('answer-card')));
+const byLevel = {};
+remaining.forEach(r => { byLevel[r.level] = (byLevel[r.level]||0) + 1; });
+console.log('Remaining by level:', JSON.stringify(byLevel));
+const byCat = {};
+remaining.filter(r => r.level === 'intermediate').forEach(r => { byCat[r.category] = (byCat[r.category]||0) + 1; });
+console.log('Remaining intermediate by category:', JSON.stringify(byCat));

@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \":*)",
+      "Bash(node -e \"const data = require\\(''./questions.json''\\); const levels = {}; const categories = {}; data.questions.forEach\\(q => { levels[q.level] = \\(levels[q.level] || 0\\) + 1; const key = q.category + ''|'' + q.level; categories[key] = \\(categories[key] || 0\\) + 1; }\\); console.log\\(''By Level:'', JSON.stringify\\(levels\\)\\); console.log\\(''By Category + Level:''\\); Object.entries\\(categories\\).sort\\(\\).forEach\\(\\([k,v]\\) => console.log\\(''  '', k, '':'', v\\)\\);\")",
+      "Bash(node -e \"const data = require\\(''./questions.json''\\); const topics = {}; data.questions.filter\\(q => q.level === ''basic''\\).forEach\\(q => { const cat = q.category; if \\(!topics[cat]\\) topics[cat] = []; const tag = q.tags[0]; if \\(!topics[cat].includes\\(tag\\)\\) topics[cat].push\\(tag\\); }\\); Object.entries\\(topics\\).forEach\\(\\([cat, tags]\\) => { console.log\\(cat + '':'', tags.join\\('', ''\\)\\); }\\);\")",
+      "Bash(node analyze.js)",
+      "Bash(node get-basic-ids.js)",
+      "Bash(node enrich_questions.js)",
+      "Bash(node -e \"const q=JSON.parse\\(require\\(''fs''\\).readFileSync\\(''questions.json'',''utf8''\\)\\); const styling=q.questions.filter\\(x=>x.category===''styling''&&x.level===''basic''\\); styling.forEach\\(x=>console.log\\(x.id,x.question.substring\\(0,80\\)\\)\\)\")",
+      "Bash(node -e \"const q=JSON.parse\\(require\\(''fs''\\).readFileSync\\(''questions.json'',''utf8''\\)\\); const g=q.questions.filter\\(x=>x.category===''genai''&&x.level===''basic''\\); g.forEach\\(x=>console.log\\(x.id,x.question.substring\\(0,80\\)\\)\\)\")",
+      "Bash(node -e \"const q=JSON.parse\\(require\\(''fs''\\).readFileSync\\(''questions.json'',''utf8''\\)\\); const c=q.questions.filter\\(x=>x.category===''cloudtools''&&x.level===''basic''\\); c.forEach\\(x=>console.log\\(x.id,x.question.substring\\(0,80\\)\\)\\)\")",
+      "Bash(node -e \"const q=JSON.parse\\(require\\(''fs''\\).readFileSync\\(''questions.json'',''utf8''\\)\\); const c=q.questions.filter\\(x=>x.category===''coding''&&x.level===''basic''\\); c.forEach\\(x=>console.log\\(x.id,x.question.substring\\(0,80\\)\\)\\)\")",
+      "Bash(node -e \"const q=JSON.parse\\(require\\(''fs''\\).readFileSync\\(''questions.json'',''utf8''\\)\\); const basic=q.questions.filter\\(x=>x.level===''basic''\\); const enriched=basic.filter\\(x=>x.answer.includes\\(''answer-card''\\)\\); console.log\\(''Total basic:'',basic.length,''Enriched basic:'',enriched.length\\); const cats={}; basic.forEach\\(x=>{if\\(!cats[x.category]\\)cats[x.category]={total:0,enriched:0}; cats[x.category].total++; if\\(x.answer.includes\\(''answer-card''\\)\\)cats[x.category].enriched++}\\); console.log\\(JSON.stringify\\(cats,null,2\\)\\)\")",
+      "Bash(node -e \"const q=JSON.parse\\(require\\(''fs''\\).readFileSync\\(''questions.json'',''utf8''\\)\\); const basic=q.questions.filter\\(x=>x.level===''basic''\\); const enriched=basic.filter\\(x=>x.answer.includes\\(''answer-card''\\)\\); console.log\\(''Total basic:'',basic.length,''Enriched basic:'',enriched.length\\)\")",
+      "Bash(node -e \"const q=JSON.parse\\(require\\(''fs''\\).readFileSync\\(''questions.json'',''utf8''\\)\\); const inter=q.questions.filter\\(x=>x.level===''intermediate''\\); const cats={}; inter.forEach\\(x=>{if\\(!cats[x.category]\\)cats[x.category]=[]; cats[x.category].push\\(x.id\\)}\\); Object.entries\\(cats\\).forEach\\(\\([cat,ids]\\)=>console.log\\(cat,ids.length,''IDs:'',ids[0]+''-''+ids[ids.length-1]\\)\\)\")",
+      "Bash(node -e \"const q=JSON.parse\\(require\\(''fs''\\).readFileSync\\(''questions.json'',''utf8''\\)\\); const inter=q.questions.filter\\(x=>x.level===''intermediate''\\); const cats={}; inter.forEach\\(x=>{const c=x.category; if\\(!\\(c in cats\\)\\)cats[c]=[]; cats[c].push\\(x.id\\)}\\); Object.entries\\(cats\\).forEach\\(\\([cat,ids]\\)=>console.log\\(cat,ids.length,''IDs:'',ids.join\\('',''\\)\\)\\)\")",
+      "Bash(node list-intermediate.js)",
+      "Bash(node list-cat-questions.js architecture intermediate)",
+      "Bash(node list-cat-questions.js backend intermediate)",
+      "Bash(node list-cat-questions.js languages intermediate)",
+      "Bash(node list-cat-questions.js frontend intermediate)",
+      "Bash(node list-cat-questions.js theory intermediate)",
+      "Bash(node list-cat-questions.js cicd intermediate)",
+      "Bash(node list-cat-questions.js styling intermediate)",
+      "Bash(node list-cat-questions.js genai intermediate)",
+      "Bash(node list-cat-questions.js cloudtools intermediate)",
+      "Bash(node list-cat-questions.js coding intermediate)",
+      "Bash(ls -la enrichment-batches/batch-01[6-9]*.json enrichment-batches/batch-02[0-6]*.json)",
+      "Bash(ls -la enrichment-batches/batch-01[8-9]*.json enrichment-batches/batch-02[0-6]*.json)",
+      "Bash(ls enrichment-batches/batch-*.json)",
+      "Bash(node -e \"const q = require\\(''./questions.json''\\); const enriched = q.questions.filter\\(x => x.answer && x.answer.includes\\(''answer-card''\\)\\).length; console.log\\(''Enriched:'', enriched, ''/ 891''\\); const remaining = q.questions.filter\\(x => !\\(x.answer && x.answer.includes\\(''answer-card''\\)\\)\\); const byLevel = {}; remaining.forEach\\(r => { byLevel[r.level] = \\(byLevel[r.level]||0\\) + 1; }\\); console.log\\(''Remaining by level:'', JSON.stringify\\(byLevel\\)\\); const byCat = {}; remaining.filter\\(r => r.level === ''intermediate''\\).forEach\\(r => { byCat[r.category] = \\(byCat[r.category]||0\\) + 1; }\\); console.log\\(''Remaining intermediate by category:'', JSON.stringify\\(byCat\\)\\);\")",
+      "Bash(node check-progress.js)",
+      "Bash(node check-basic.js)",
+      "Bash(node list-advanced.js)"
+    ]
+  }
+}
