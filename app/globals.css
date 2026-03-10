@@ -1373,6 +1373,7 @@ body.theme-transitioning * {
   flex-shrink: 0;
 }
 .settings-btn {
+  display: none !important;
   background: var(--surface2);
   border: 1px solid var(--border);
   color: var(--muted);
