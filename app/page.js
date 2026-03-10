@@ -237,9 +237,10 @@ export default function Page() {
   // ── quote tooltip state ─────────────────────────────────────────────
   const [quoteVisible, setQuoteVisible] = useState(false);
   const [currentQuote, setCurrentQuote] = useState(null);
-  const [quoteFrequency, setQuoteFrequency] = useState(10);
+  const [quoteFrequency, setQuoteFrequency] = useState(20);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const quoteShownCountRef = useRef(0);
+  const quoteFreqRef = useRef(20);
 
   // ── flashcard state ──────────────────────────────────────────────────────
   const [fcOpen,     setFcOpen]     = useState(false);
@@ -248,8 +249,9 @@ export default function Page() {
   const [fcRevealed, setFcRevealed] = useState(false);
 
   const searchRef = useRef(null);
+  const loadedRef = useRef(false);
 
-  // ── localStorage persistence ─────────────────────────────────────────────
+  // ── load from localStorage on mount ────────────────────────────────────
   useEffect(() => {
     const ans = JSON.parse(localStorage.getItem('ip_answered') || '[]');
     const bkm = JSON.parse(localStorage.getItem('ip_bookmarked') || '[]');
@@ -260,19 +262,20 @@ export default function Page() {
     document.documentElement.setAttribute('data-theme', saved);
     const savedCode = localStorage.getItem('ip_code_theme') || 'vs-dark';
     setCodeTheme(savedCode);
-    const savedFreq = parseInt(localStorage.getItem('ip_quote_freq') || '10', 10);
+    const savedFreq = parseInt(localStorage.getItem('ip_quote_freq') || '20', 10);
     setQuoteFrequency(savedFreq);
+    quoteFreqRef.current = savedFreq;
+    // Mark loaded so save effects below don't fire before data is restored
+    loadedRef.current = true;
   }, []);
 
-  const hydrated = useRef(false);
-  useEffect(() => { hydrated.current = true; }, []);
-
+  // ── save to localStorage on change (skip until loaded) ─────────────────
   useEffect(() => {
-    if (hydrated.current) localStorage.setItem('ip_answered', JSON.stringify([...answered]));
+    if (loadedRef.current) localStorage.setItem('ip_answered', JSON.stringify([...answered]));
   }, [answered]);
 
   useEffect(() => {
-    if (hydrated.current) localStorage.setItem('ip_bookmarked', JSON.stringify([...bookmarked]));
+    if (loadedRef.current) localStorage.setItem('ip_bookmarked', JSON.stringify([...bookmarked]));
   }, [bookmarked]);
 
   // ── derived data ─────────────────────────────────────────────────────────
@@ -431,7 +434,8 @@ export default function Page() {
       // Show quote every N questions marked done
       if (!wasDone) {
         quoteShownCountRef.current += 1;
-        if (quoteFrequency > 0 && quoteShownCountRef.current % quoteFrequency === 0) {
+        const freq = quoteFreqRef.current;
+        if (freq > 0 && quoteShownCountRef.current % freq === 0) {
           showRandomQuote();
         }
       }
@@ -451,14 +455,7 @@ export default function Page() {
   function toggleCard(id) {
     setOpenCards(prev => {
       const n = new Set(prev);
-      const wasOpen = n.has(id);
-      wasOpen ? n.delete(id) : n.add(id);
-      if (!wasOpen) {
-        quoteShownCountRef.current += 1;
-        if (quoteFrequency > 0 && quoteShownCountRef.current % quoteFrequency === 0) {
-          showRandomQuote();
-        }
-      }
+      n.has(id) ? n.delete(id) : n.add(id);
       return n;
     });
   }
@@ -562,6 +559,7 @@ export default function Page() {
                   onChange={e => {
                     const v = parseInt(e.target.value, 10);
                     setQuoteFrequency(v);
+                    quoteFreqRef.current = v;
                     localStorage.setItem('ip_quote_freq', String(v));
                   }}
                 >

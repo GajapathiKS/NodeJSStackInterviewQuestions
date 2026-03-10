@@ -246,12 +246,90 @@ body::before {
   padding: 20px;
   margin-bottom: 28px;
 }
+.tracker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
 .tracker-title {
   font-family: var(--mono);
   font-size: 11px;
   color: var(--muted);
   letter-spacing: 2px;
-  margin-bottom: 16px;
+}
+.tracker-actions {
+  display: flex;
+  gap: 8px;
+}
+.tracker-btn {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+}
+.export-btn {
+  background: rgba(16,185,129,0.1);
+  border: 1px solid rgba(16,185,129,0.3);
+  color: var(--green);
+}
+.export-btn:hover {
+  background: rgba(16,185,129,0.2);
+  border-color: var(--green);
+}
+.import-btn {
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.3);
+  color: var(--accent);
+}
+.import-btn:hover {
+  background: rgba(59,130,246,0.2);
+  border-color: var(--accent);
+}
+/* Tooltip on hover */
+.tracker-btn[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 240px;
+  padding: 10px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--sans);
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--text);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  z-index: 200;
+  pointer-events: none;
+  animation: fadeIn 0.15s ease-out;
+  letter-spacing: 0;
+  text-transform: none;
+}
+[data-theme="light"] .export-btn {
+  background: rgba(5,150,105,0.08);
+  border-color: rgba(5,150,105,0.25);
+}
+[data-theme="light"] .export-btn:hover {
+  background: rgba(5,150,105,0.15);
+}
+[data-theme="light"] .import-btn {
+  background: rgba(99,102,241,0.08);
+  border-color: rgba(99,102,241,0.25);
+}
+[data-theme="light"] .import-btn:hover {
+  background: rgba(99,102,241,0.15);
+}
+[data-theme="light"] .tracker-btn[title]:hover::after {
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(200,210,230,0.5);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
 }
 .tracker-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 .tracker-stat { text-align: center; }
